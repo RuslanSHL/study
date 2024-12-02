@@ -1,16 +1,50 @@
-# This is a sample Python script.
+from sys import argv
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton
+from PyQt6.QtGui import QPainter, QColor, QBrush
+from PyQt6.QtCore import Qt, QPoint
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from random import randint
 
 
-# Press the green button in the gutter to run the script.
+class Window(QWidget):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.flag = False
+        self.initUI()
+        self.brush = QBrush()
+        self.brush.setStyle(Qt.BrushStyle.SolidPattern)
+        self.brush.setColor(QColor('yellow'))
+        self.setFixedSize(600, 600)
+
+    def initUI(self):
+        self.button = QPushButton(self)
+        self.button.clicked.connect(self.click)
+        self.button.move(300, 300)
+
+    def click(self):
+        self.flag = True
+        self.update()
+        
+    def paintEvent(self, e):
+        print(self.flag)
+        if self.flag:
+            painter = QPainter()
+            painter.begin(self)
+            painter.setBrush(self.brush)
+            for i in range(10):
+                coords = (randint(0, 600), randint(0, 600))
+                size = randint(5, 200)
+
+                painter.drawEllipse(*coords, size, size)
+
+            painter.end()
+            # self.flag = False
+            self.update()
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app = QApplication(argv)
+    window = Window()
+    window.show()
+    app.exec()
