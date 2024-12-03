@@ -1,1 +1,1 @@
-from PuQy6.QtWidgets import
+from PuQy6.QtWidgets import QWidget
