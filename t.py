@@ -1,2 +1,1 @@
-print('greeting')
-print('hello')
+from PuQy6.QtWidgets import
